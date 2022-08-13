@@ -24,6 +24,14 @@
     <ul id='listOfUser'></ul>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
     <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+                axios.get("https://crudcrud.com/api/a5daf3e42a294aa397ae19ba546ecc40/appointmentdata")
+                .then((Response)=>{
+                    for(var i=0;i<Response.data.length;i++){
+                        showUserOnScreen(Response.data[i]);
+                    }
+                })
+            })
         function saveToLocalStorage(event){
             event.preventDefault();
           const eamount=event.target.expenseamount.value;
@@ -35,7 +43,7 @@
             descript,
             Category
          }
-         axios.post("https://crudcrud.com/api/0a7f22142457494db73f62dbba34d31d/appointmentdata",obj)
+         axios.post("https://crudcrud.com/api/a5daf3e42a294aa397ae19ba546ecc40/appointmentdata",obj)
                 .then((response)=>{
                     showUserOnScreen(response.data);
                 })
@@ -43,25 +51,18 @@
                    console.log(err)
               })
          
-         window.addEventListener('DOMContentLoaded', (event) => {
-                axios.get("https://crudcrud.com/api/0a7f22142457494db73f62dbba34d31d/appointmentdata")
-                .then((Response)=>{
-                    for(var i=0;i<Response.data.length;i++){
-                        showUserOnScreen(Response.data[i]);
-                    }
-                })
-            })
+         
           }
           function showUserOnScreen(user){
             const parentNode=document.getElementById('listOfUser');
             const childHTML=`<li id=${user._id}> ${user.eamount}-${user.descript}-${user.Category} 
-                <button onclick=deleteUser('${user._id}')> Delete Expense </botton><button  onclick=editUserDetails('${user.eamount}','${user.descript}','${user.Category}')>Edit Expense</button>
+                <button onclick=deleteUser('${user._id}')> Delete Expense </botton><button  onclick=editUserDetails('${user.eamount}','${user.descript}','${user.Category}','${user._id}')>Edit Expense</button>
                 </li>`
             parentNode.innerHTML=parentNode.innerHTML + childHTML;
           }
           //
          function deleteUser(userId){
-            axios.delete(`https://crudcrud.com/api/0a7f22142457494db73f62dbba34d31d/appointmentdata/${userId}`)
+            axios.delete(`https://crudcrud.com/api/a5daf3e42a294aa397ae19ba546ecc40/appointmentdata/${userId}`)
                 .then((response)=>{
                     removeUserFromScreen(userId)
                 })
